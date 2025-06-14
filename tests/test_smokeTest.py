@@ -3,12 +3,12 @@ import pytest
 import time
 import json
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 class TestSmokeTest():
@@ -22,16 +22,16 @@ class TestSmokeTest():
     self.driver.quit()
   
   def test_adminPage(self):
-    self.driver.get("http://127.0.0.1:5500/cse270-teton/teton/1.6/admin.html")
+    self.driver.get("https://expidev.github.io/cse270-teton/./admin.html")
     elements = self.driver.find_elements(By.ID, "username")
     assert len(elements) > 0
     self.driver.find_element(By.ID, "username").send_keys("incorrect")
     self.driver.find_element(By.ID, "password").send_keys("incorrect")
     self.driver.find_element(By.CSS_SELECTOR, ".mysubmit:nth-child(4)").click()
-    assert self.driver.find_element(By.CSS_SELECTOR, ".errorMessage").text == "Invalid username and password."
+    WebDriverWait(self.driver, 30).until(expected_conditions.text_to_be_present_in_element((By.CSS_SELECTOR, ".errorMessage"), "Invalid username and password."))
   
   def test_directoryPage(self):
-    self.driver.get("http://127.0.0.1:5500/cse270-teton/teton/1.6/directory.html")
+    self.driver.get("https://expidev.github.io/cse270-teton/./directory.html")
     self.driver.find_element(By.ID, "directory-grid").click()
     elements = self.driver.find_elements(By.CSS_SELECTOR, ".gold-member:nth-child(9) > img")
     assert len(elements) > 0
@@ -50,7 +50,7 @@ class TestSmokeTest():
     assert self.driver.find_element(By.CSS_SELECTOR, ".gold-member:nth-child(9) a").text == "Website"
   
   def test_homePage(self):
-    self.driver.get("http://127.0.0.1:5500//cse270-teton/teton/1.6/index.html")
+    self.driver.get("https://expidev.github.io/cse270-teton/./index.html")
     self.driver.set_window_size(605, 782)
     elements = self.driver.find_elements(By.CSS_SELECTOR, ".header-logo img")
     assert len(elements) > 0
@@ -73,7 +73,7 @@ class TestSmokeTest():
     assert self.driver.find_element(By.CSS_SELECTOR, "section > h3").text == "Welcome to the Teton Chamber of Commerce Signup Wizard!"
   
   def test_joinPage(self):
-    self.driver.get("http://127.0.0.1:5500/cse270-teton/teton/1.6/join.html")
+    self.driver.get("https://expidev.github.io/cse270-teton/./join.html")
     elements = self.driver.find_elements(By.NAME, "fname")
     assert len(elements) > 0
     self.driver.find_element(By.NAME, "fname").send_keys("Nasandratra")
